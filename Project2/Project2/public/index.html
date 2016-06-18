@@ -1,91 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>React Project 1</title>
-    <!-- Not present in the tutorial. Just for basic styling. -->
-    <link rel="stylesheet" href="css/base.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-  </head>
-  <body>
-    <div id="content"></div> 
+<head>
+<meta charset="utf-8">
+<title>React Project 1</title>
+<!-- Not present in the tutorial. Just for basic styling. -->
+<link rel="stylesheet" href="css/base.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+</head>
+<body>
+<div id="content"></div> 
 
- <script type="text/babel">
-    
+<script type="text/babel">
+
 var FilmItem = React.createClass({
-        render: function() {
-          return(
-         <div className="filmItem">
-         <tr><table>
-    <tr><td>{this.props.article.title}</td></tr>
-    <tr>
-    <td>picture to come...</td>
-    <td>
-      <table>
-        <tr><td>{this.props.article.category} | {this.props.article.date}</td></tr>
-        <tr><td>{this.props.article.date}</td></tr>
-      </table>
-    </td>
-    </tr>
-    </table></tr>
-    </div>
-    );
-        }
-      });
+  render: function() {
+    return(
+     <div className="filmItem">
+     <tr><table>
+     <tr><td colSpan="2"><h3>{this.props.article.title}</h3></td></tr>
+     <tr><td><img src ={this.props.article.imageURL} /></td>
+     <td>
+     <table>
+     <tr><td>{this.props.article.category} | {this.props.article.date}</td></tr>
+     <tr><td>{this.props.article.subtitle}</td></tr>
+     </table>
+     </td>
+     </tr>
+     </table></tr>
+     </div>
+     );
+  }
+});
 
 var FilmTable = React.createClass({
-        render: function() {
-        var rows = [];
-        this.props.articles.forEach(function(article) {
-          rows.push(<FilmItem article={article} />);
-        });
-          return (
-        <div className="filmTable">
-          <table>{rows}</table>
-        </div>
-          );
-        }
-      });
+  render: function() {
+    var rows = [];
+    this.props.articles.forEach(function(article) {
+      rows.push(<FilmItem article={article} />);
+    });
+    return (
+      <div className="filmTable">
+      <table>{rows}</table>
+      </div>
+      );
+  }
+});
 
- var FilmForm = React.createClass({
-        render: function() {
-          return(
-        <form className="filmForm">
-        <p>Title: <input type = "text" name="title" /></p>
-        <p>Subtitle: <input type = "text" name="subtitle" /></p>
-        <p>Date: <input type = "text" name="date" /></p>
-        <p>Category: <input type = "text" name="category" /></p>
-        <p><input type="submit" value="Submit" /></p>
-        </form>
-    );
-        }
-      });
+var FilmForm = React.createClass({
+  render: function() {
+    return(
+      <form className="filmForm">
+      <p>Title: <input type = "text" name="title" /></p>
+      <p>Subtitle: <input type = "text" name="subtitle" /></p>
+      <p>Date: <input type = "text" name="date" /></p>
+      <p>Category: <input type = "text" name="category" /></p>
+      <p>Image URL: <input type = "text" name="imageURL" /></p>
+      <p><input type="submit" value="Submit" /></p>
+      </form>
+      );
+  }
+});
 
 var FilmFormTable = React.createClass({
-        render: function() {
-          return (
-        <div className="filmFormTable">
-          <FilmTable articles={this.props.articles} />
-          <FilmForm />
-        </div>
-          );
-        }
-      });
-
-       var ARTICLES = [
-        {title: 'Manchester United and its bizarre movie promotions', category : 'MOVIES', date: 'Jun 15, 2016', subtitle: 'A new Manchester United promo for Independence Day: Resurgence is the latest in the ongoing marketing pact between the club and Fox.'},
-        {title: 'Beverly Hills Cop 4 back on, new directors hired', category : 'MOVIES', date: 'Jun 15, 2016', subtitle: 'Eddie Murphy will be back as Axel Foley in Beverly Hills Cop 4 - but Brett Ratner isn\'t directing anymore'}
-        ];
-
-
-      ReactDOM.render(
-      <FilmFormTable articles={ARTICLES} />,
-      document.getElementById('content')
+  render: function() {
+    return (
+      <div className="filmFormTable">
+      <FilmTable articles={this.props.articles} />
+      <FilmForm />
+      </div>
       );
-    </script>
-  </body>
+  }
+});
+
+var ARTICLES = [
+{title: 'Manchester United and its bizarre movie promotions', category : 'MOVIES', date: 'Jun 15, 2016', subtitle: 'A new Manchester United promo for Independence Day: Resurgence is the latest in the ongoing marketing pact between the club and Fox.', imageURL: 'images/wayne_rooney.jpg'},
+{title: 'Beverly Hills Cop 4 back on, new directors hired', category : 'MOVIES', date: 'Jun 15, 2016', subtitle: 'Eddie Murphy will be back as Axel Foley in Beverly Hills Cop 4 - but Brett Ratner isn\'t directing anymore', imageURL: 'images/beverly-hills-cop-4-eddie-murphy_4.jpg'}
+];
+
+
+ReactDOM.render(
+  <FilmFormTable articles={ARTICLES} />,
+  document.getElementById('content')
+  );
+</script>
+</body>
 </html>
