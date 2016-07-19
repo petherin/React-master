@@ -51,14 +51,27 @@ var FilmTable = React.createClass({
 });
 
 var FilmForm = React.createClass({
+  handleChange: function() {
+    this.props.onUserInput(
+      this.refs.titleInput.value,
+      this.refs.categoryInput.value, 
+      this.refs.dateInput.value, 
+      this.refs.subtitleInput.value, 
+      this.refs.imageURLInput.value
+      );
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    this.props.onFormSubmit();
+  },
   render: function() {
     return(
-      <form className="filmForm">
-      <p>Title: <input type = "text" name="title" /></p>
-      <p>Subtitle: <input type = "text" name="subtitle" /></p>
-      <p>Date: <input type = "text" name="date" /></p>
-      <p>Category: <input type = "text" name="category" /></p>
-      <p>Image URL: <input type = "text" name="imageURL" /></p>
+      <form className="filmForm" onSubmit={this.handleSubmit}>
+      <p>Title: <input type = "text" name="title" value={this.props.newArticleProp.title} ref="titleInput" onChange={this.handleChange} /></p>
+      <p>Subtitle: <input type = "text" name="subtitle" value={this.props.newArticleProp.subtitle}  ref="subtitleInput"  onChange={this.handleChange} /></p>
+      <p>Date: <input type = "text" name="date" value={this.props.newArticleProp.date}  ref="dateInput"  onChange={this.handleChange} /></p>
+      <p>Category: <input type = "text" name="category" value={this.props.newArticleProp.category}  ref="categoryInput"  onChange={this.handleChange} /></p>
+      <p>Image URL: <input type = "text" name="imageURL" value={this.props.newArticleProp.imageURL}  ref="imageURLInput"  onChange={this.handleChange} /></p>
       <p><input type="submit" value="Submit" /></p>
       </form>
       );
@@ -66,11 +79,40 @@ var FilmForm = React.createClass({
 });
 
 var FilmFormTable = React.createClass({
+  getInitialState: function() {
+    return {
+      newArticleState: {title: '', category : '', date: '', subtitle: '', imageURL: ''},
+      articles: this.props.articles
+    };
+  },
+  handleUserInput: function(title, category, date, subtitle, imageURL) {
+    this.setState({
+      newArticleState: {title: title, category: category, date: date, subtitle: subtitle, imageURL: imageURL}
+    }, function() {
+    console.log("handleUserInput setstate hit",  this.state.newArticleState);
+  });
+  },
+  handleFormSubmit: function() {
+    var newArticles = this.state.articles.slice();
+    newArticles.push({
+      title: this.state.newArticleState.title, 
+      category : this.state.newArticleState.category, 
+      date: this.state.newArticleState.date, 
+      subtitle: this.state.newArticleState.subtitle, 
+      imageURL: this.state.newArticleState.imageURL
+    }); 
+    this.setState({
+      articles: newArticles,
+      newArticleState: {title: '', category : '', date: '', subtitle: '', imageURL: ''}
+    }, function() {
+    console.log("handleFormSubmit setstate hit",  this.state.newArticleState);
+  });
+  },
   render: function() {
     return (
       <div className="filmFormTable">
-      <FilmTable articles={this.props.articles} />
-      <FilmForm />
+      <FilmTable articles={this.state.articles} />
+      <FilmForm newArticleProp={this.state.newArticleState} onUserInput={this.handleUserInput} onFormSubmit={this.handleFormSubmit} />
       </div>
       );
   }
